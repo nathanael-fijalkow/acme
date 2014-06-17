@@ -1,0 +1,25 @@
+% A B-automaton, computing the maximal length of a block of a's, with c as final letter
+4
+1
+abc
+0
+2
+
+a
+I R _ _
+_ E _ _
+_ _ _ _
+_ _ _ E
+
+b
+_ _ _ R
+E _ _ _
+_ _ _ _
+_ _ _ E
+
+c
+_ _ E _
+_ _ _ _
+_ _ _ _
+_ _ E _
+

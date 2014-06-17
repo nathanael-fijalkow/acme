@@ -1,0 +1,190 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% DESCRIPTION OF THE AUTOMATON
+% FILE FORMAT LINE BY LINE
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% the first line is the size of the automaton
+% size : int
+
+% the second line is the type of the automaton
+% c: classical
+% p: probabilistic
+% n (int): a B-automaton with n counters
+
+% The third line is the alphabet. Each character is a letter, they should not be separated
+% alphabet : string
+
+% The fourth line is the initial states. Each state should be separated by spaces
+% initial states : int Array
+
+% The fifth line is the final states. Each state should be separated by spaces
+% final states : int Array
+
+% The next lines are the transition matrices, one for each letter in the input order.
+% A transition matrix is given by actions (like IE,RI, OO, __) separated by spaces.
+% Each matrix is preceded by a single character line, the letter (for readability and checking purposes). 
+% transition matrices : action Array
+
+% For classical automata (without counters), the transition matrix contains only 1 and _.
+% The blank lines and lines starting with "%" are ignored
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% EXAMPLES
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+% A classical automaton to test the finite power property
+% The answer should be FALSE
+2
+c
+ab
+0
+1
+
+a
+1 _
+_ 1
+
+b
+_ 1
+_ _
+
+% A classical automaton to test the finite power property
+% The answer should be TRUE
+2
+c
+ab
+0
+1
+
+a
+1 _
+_ 1
+
+b
+1 1
+1 1
+
+
+% A probabilistic automaton to test the Markov Monoid Algorithm
+% The answer should be TRUE
+2
+p
+ab
+0
+1
+
+a
+1 1
+_ 1
+
+b
+1 _
+_ 1
+
+% A B-automaton, computing the maximal length of a block of a's, with c as final letter
+4
+1
+abc
+0
+2
+
+a
+I R _ _
+_ E _ _
+_ _ _ _
+_ _ _ E
+
+b
+_ _ _ R
+E _ _ _
+_ _ _ _
+_ _ _ E
+
+c
+_ _ E _
+_ _ _ _
+_ _ _ _
+_ _ E _
+
+% A B-automaton with 7 states
+7
+1
+abc
+0
+1
+
+a
+_ _ _ I _ _ E 
+_ _ R _ _ _ _ 
+_ I _ _ E _ _ 
+_ _ _ _ _ E _ 
+_ I _ _ _ _ _ 
+_ _ _ I _ _ _ 
+_ I _ _ E _ _ 
+
+
+b
+_ _ E _ _ _ _
+_ E _ E _ _ _
+_ _ E _ _ I _
+_ _ _ I _ _ _
+_ _ _ _ I _ _
+_ _ _ _ _ R _
+_ _ I _ _ _ _
+
+
+c
+_ R _ _ _ _ _
+_ _ _ R _ _ _
+_ _ E _ _ E _
+_ _ _ _ _ _ _
+_ _ R _ _ _ _
+_ _ _ _ I _ _
+_ _ _ _ _ I _
+
+
+
+% A B-automaton with 10 states
+10
+1
+abc
+0
+9
+
+a
+_ _ _ I _ _ E E _ _
+_ _ R _ _ _ _ _ _ _
+_ I _ _ E _ _ E _ _
+_ _ _ _ _ E _ I _ _
+_ I _ _ _ _ _ _ R _
+_ _ _ I _ _ _ _ _ _
+_ I _ _ E _ _ _ _ E
+E _ R _ _ _ _ _ _ _
+_ _ _ E _ _ _ I _ _
+_ _ _ E _ E _ _ _ _
+
+b
+_ _ E _ _ _ _ _ _ _
+_ E _ E _ _ _ _ _ _
+_ _ E _ _ I _ _ _ _
+_ _ _ I _ _ _ _ _ _
+_ _ _ _ I _ _ _ _ _
+_ _ _ _ _ R _ R _ _
+_ _ I _ _ _ _ _ I _
+_ I _ _ _ _ _ _ _ _
+E _ _ _ _ _ I _ _ _
+_ _ _ _ _ _ _ I I _
+
+c
+_ R _ _ _ _ _ E _ _
+_ _ _ R _ _ _ _ _ _
+_ _ E _ _ E _ _ _ _
+_ _ _ _ _ _ _ _ _ _
+_ _ R _ _ _ _ _ _ _
+_ _ _ _ I _ _ I _ _
+_ _ _ _ _ I _ _ _ _
+_ _ I I _ _ _ R _ _
+_ E _ _ _ _ _ _ E _
+R _ _ _ _ R R _ _ _
+

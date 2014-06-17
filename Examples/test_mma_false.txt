@@ -1,0 +1,17 @@
+% A probabilistic automaton to test the Markov Monoid Algorithm
+% The answer should be TRUE
+3
+p
+ab
+0
+2
+
+a
+1 _ _
+1 1 _
+_ _ 1
+
+b
+_ 1 _
+_ _ 1
+_ _ 1

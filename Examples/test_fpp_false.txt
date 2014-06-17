@@ -1,0 +1,15 @@
+% A classical automaton to test the finite power property
+% The answer should be FALSE
+2
+c
+ab
+0
+1
+
+a
+1 _
+_ 1
+
+b
+_ 1
+_ _
