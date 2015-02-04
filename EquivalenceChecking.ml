@@ -34,7 +34,7 @@ let equivalence mon1 mon2 =
 	index := !index + 1 ;
 	if !index = n then raise Finished ; 
       end ;
-    if mon1.stabilization.(x) <> -1 && mon2.stabilization.(y) <> -1 && not tab_checked.(mon1.stabilization.(x)).(mon2.stabilization.(y)) 
+    if not tab_checked.(mon1.stabilization.(x)).(mon2.stabilization.(y)) 
 	then check (mon1.stabilization.(x), mon2.stabilization.(y)) ;
     for i = 0 to !index - 1 do
       match tab_enum.(i) with
@@ -68,7 +68,10 @@ let equivalence mon1 mon2 =
     done ;
   in
   
-  try (for i = 0 to (Array.length mon1.alpha) - 1 do check (mon1.morphism.(i),mon2.morphism.(i)) done ; false)
+  try (if (mon1.size_m <> mon2.size_m) then raise Not_Equivalent ;
+    check (0,0) ;
+    for i = 0 to (Array.length mon1.alpha) - 1 do check (mon1.morphism.(i),mon2.morphism.(i)) done ; 
+    false)
   with 
     | Not_Equivalent -> false
     | Finished -> try final_check () ; true

@@ -1,4 +1,5 @@
-% A B-automaton, computing the maximal length of a block of a's, with c as final letter
+% Two equivalent B-automata, computing the maximal length of a block of a's, with c as final letter
+% The first B-automaton
 4
 1
 abc
@@ -23,7 +24,7 @@ _ _ _ _
 _ _ _ _
 _ _ E _
 
-% A B-automaton, computing the same function as the one above, but in a different way
+% The second B-automaton, computing the same function as the one above, but in a different way
 4
 1
 abc

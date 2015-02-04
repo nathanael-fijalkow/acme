@@ -97,31 +97,17 @@ let n = automaton.size in match automaton.structure.type_s with
 	then "n0" (* leak *)
 	else "l0" (* not a leak *)
     | B1 ->
-      let b_om = ref false and b_acc = ref false in
+      let b_acc = ref false and b_om = ref true in
+      (* b_acc stands for "there exists an accepting path" *)
+      (* b_om stands for "all accepting paths are unbounded" *)
       for i = 0 to n - 1 do
 	if automaton.initial.(i) then
 	  for j = 0 to n - 1 do
 	    if automaton.final.(j) then 
-	      begin
-		if m.(i).(j) = 3 then b_om := true ;
-		if m.(i).(j) < 3 then b_acc := true ;
-	      end
+		if m.(i).(j) < 4 then (b_acc := true ; if m.(i).(j) < 3 then b_om := false) ;
 	  done ;
       done ;
-      if (!b_acc || (not !b_om)) then "l" else "n" ; (* "l" stands for limited *)     
-    | BN ->
-      let b_om = ref false and b_acc = ref false in
-      for i = 0 to n - 1 do
-	if automaton.initial.(i) then
-	  for j = 0 to n - 1 do
-	    if automaton.final.(j) then 
-	      begin
-		if m.(i).(j) = 3 then b_om := true ;
-		if m.(i).(j) < 3 then b_acc := true ;
-	      end
-	  done ;
-      done ;
-      if (!b_acc || (not !b_om)) then "l" else "n" ; (* "l" stands for limited *)
+      if (!b_acc && !b_om) then "n" else "l" ; (* "l" stands for limited, "n" for unlimited *)     
     | _ -> failwith "Error"
       
 let update_info info i structure =
@@ -167,9 +153,9 @@ let automata2monoid automaton =
   let tab_monoid = Array.make 10000 (mat_id, Concat [], !info) and ind_max = ref 0 and tab_hash = Array.make prime [] in
   let queue = Queue.create () in Queue.add (Concat [],mat_id) queue ;
   
-for j = 0 to (Array.length automaton.alphabet) - 1 do
+  for j = 0 to (Array.length automaton.alphabet) - 1 do
 	Queue.add (Char j, automaton.transition.(j)) queue ;
-done ;
+  done ;
     
   let insert (m,se) = 
 (*    print_string (print_se automaton se) ; print_newline() ; print_string (print_matrix structure n m) ; print_newline() ;  *)
@@ -187,8 +173,8 @@ done ;
 	  insert (m,s) ;	  
 	  let m_square = prod_here m m in
     	  if (equal_here m m_square) 
-    	  then let p = stab_here m in let h = hash p in if not (List.mem p tab_hash.(h)) then Queue.add (Sharp s, p) queue ;
-          else let h = hash m_square in if not (List.mem m_square tab_hash.(h)) then Queue.add (Concat [s ; s], m_square) queue ;
+    	  then (let p = stab_here m in let h = hash p in if not (List.mem p tab_hash.(h)) then Queue.add (Sharp s, p) queue ;)
+          else (let h = hash m_square in if not (List.mem m_square tab_hash.(h)) then Queue.add (Concat [s ; s], m_square) queue) ;
 
 	  for i = 0 to !ind_max - 1 do
   	let (n,sn,_) = tab_monoid.(i) in
@@ -207,7 +193,7 @@ done ;
 
   let find m =
     let rec foo i =
-	if i = !ind_max then print_string "oooops" ; 
+(*	if i = !ind_max then print_string "oooops" ; *)
       let (m',_,_) = tab_monoid.(i) in 
       if equal_here m m' then i else foo (i+1)
     in foo 0
@@ -219,7 +205,7 @@ done ;
   let mat_prod = Array.init !ind_max (fun _ -> Array.make !ind_max (-1)) in
   for i = 0 to !ind_max - 1 do
     let (m,s,_) = tab_monoid.(i) in
-(*     print_string "i : " ; print_string (print_se automaton s) ; print_newline() ; print_string (print_matrix structure n m) ; print_newline() ; print_newline() ; print_newline() ; print_newline() ; *)
+(*     print_string "i : " ; print_string (print_se automaton s) ; print_newline() ; print_string (print_matrix structure n m) ; print_newline() ; print_newline() ; *)
     for j = 0 to !ind_max - 1 do
       let (m',s',_) = tab_monoid.(j) in
 (*    print_string "j : " ; print_string (print_se automaton s') ; print_newline() ; (* print_string (print_matrix structure n m') ; print_newline() ; *) *)
@@ -233,8 +219,17 @@ done ;
   let rec fill i m = 
     let m_square = prod_here m m in
     if (equal_here m m_square) 
-    then (let p = stab_here m in let j = find p in vect_stab.(i) <- j)
-    else (let j = find m_square in (if vect_stab.(j) <> -1 then fill j m_square ; vect_stab.(i) <- vect_stab.(j)))
+    then begin
+	   let p = stab_here m in 
+	   let j = find p in 
+           vect_stab.(i) <- j ;
+	 end
+    else begin
+	   let j = find m_square in 
+	   if vect_stab.(j) <> -1 
+	     then vect_stab.(i) <- vect_stab.(j)
+	     else (fill j m_square ; vect_stab.(i) <- vect_stab.(j))
+	 end ;
   in
   for i = 0 to !ind_max - 1 do
     let (m,_,_) = tab_monoid.(i) in fill i m ;
@@ -250,7 +245,8 @@ done ;
 	| P -> 
 	  vect_ideal.(i) <- (inf = "l0" || inf = "n0") ; (* not a value 1 witness *)
 	  vect_attribute.(i) <- if inf = "n0" then "leak" else if inf = "n1" then "leak and value 1 witness" else if inf = "l1" then "value 1 witness" else "" ;
-	| B1 | BN -> vect_ideal.(i) <- inf = "l" (* limited *)
+	| B1 | BN -> vect_ideal.(i) <- inf = "l" ; (* limited *)
+	  vect_attribute.(i) <- if inf = "n" then "unbounded witness" else "" ;
 	| _ -> failwith "Error" ;
     end ;
   done ;

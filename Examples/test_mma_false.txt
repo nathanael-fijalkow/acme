@@ -1,5 +1,5 @@
-% A probabilistic automaton to test the Markov Monoid Algorithm
-% The answer should be TRUE
+% This probabilistic automaton is the simplest non-leaktight automaton
+% It has value 1, but is not leaktight
 3
 p
 ab

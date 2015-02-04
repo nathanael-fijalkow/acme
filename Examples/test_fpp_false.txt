@@ -1,5 +1,7 @@
-% A classical automaton to test the finite power property
+% A classical automaton to check the finite power property
 % The answer should be FALSE
+% Indeed, the automaton recognizes the language L = a^* b a^* (exactly one b)
+% L^* is the set of all words, which is not equal to L^0 + L^1 + ... + L^n, for any n
 2
 c
 ab

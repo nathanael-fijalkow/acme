@@ -1,5 +1,4 @@
-% A probabilistic automaton to test the Markov Monoid Algorithm
-% The answer should be TRUE
+% This probabilistic automaton has value 1
 2
 p
 ab

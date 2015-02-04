@@ -1,0 +1,29 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% DESCRIPTION OF THE AUTOMATON
+% FILE FORMAT LINE BY LINE
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% the first line is the size of the automaton
+% size : int
+
+% the second line is the type of the automaton
+% c: classical
+% p: probabilistic
+% n (int): a B-automaton with n counters
+
+% The third line is the alphabet. Each character is a letter, they should not be separated
+% alphabet : string
+
+% The fourth line is the initial states. Each state should be separated by spaces
+% initial states : int Array
+
+% The fifth line is the final states. Each state should be separated by spaces
+% final states : int Array
+
+% The next lines are the transition matrices, one for each letter in the input order.
+% A transition matrix is given by actions (like IE,RI, OO, __) separated by spaces.
+% Each matrix is preceded by a single character line, the letter (for readability and checking purposes). 
+% transition matrices : action Array
+
+% For classical automata (without counters), the transition matrix contains only 1 and _.
+% The blank lines and lines starting with "%" are ignored

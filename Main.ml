@@ -17,8 +17,8 @@ let help = "Usage:
 -fpp: \t\t checks whether a classical automaton has the finite power property,
 -dotty: \t displays an automaton using graphviz.\n
 
-[FILENAME] The input file should be a .txt file formatted as specified in Examples/Data.txt.
-It should contain the description of one automata (or two in the case of equivalence checking).\n
+[FILENAME] The input file should be a .txt file formatted as specified in Data.txt.
+It should contain the description of one automaton (or two in the case of equivalence checking).\n
 
 [DISPLAY] (OPTIONAL, irrelevant for -dotty) The available options are:
 -text: \t verbose (default option),
@@ -33,9 +33,132 @@ let _ =
   then print_string help
   else func := Sys.argv.(1) ;
   
-  let data = ref (open_in "Examples/Data.txt") and display = ref "-text" and n = ref 4 and p = ref 0.2 and m = ref 6 in () ;
+  let data = ref (open_in "Data.txt") and display = ref "-text" and n = ref 4 and p = ref 0.2 and m = ref 6 in () ;
   let h = ref (open_out "output.gv") in () ; 
 
+(* Function computing the stabilization monoid of a B-automaton *)
+  if (!func = "-sm") then
+    begin
+      if (nb_param = 3) then data := open_in Sys.argv.(2) ;
+      if (nb_param = 4) then (data := open_in Sys.argv.(2) ; display := Sys.argv.(3)) ;
+
+      let auto = read_automaton !data in
+      if (!display = "-text") then print_automaton auto ;
+      if (!display = "-dotty") then create_dotty_file_aut auto !h ;
+
+      let mon = automata2monoid auto in
+      if (!display = "-text") then 
+	begin
+	  print_string "\n**********************************\n" ;
+	  print_string "Computing the stabilization monoid:\n" ;
+	  print_string "**********************************\n" ;
+          print_monoid mon ;
+          let min_mon = minimize mon in
+	  begin
+	  print_string "\n**********************************\n" ;
+	  print_string "Minimizing the stabilization monoid:\n" ;
+	  print_string "**********************************\n" ;
+          print_monoid min_mon ;
+          end ;
+	end ;
+
+      if mon.info = "l" 
+      then print_string "\n\n-----> This automaton is limited.\n\n" 
+      else print_string "\n\n-----> This automaton is not limited.\n\n" ;
+
+      if (!display = "-dotty") then 
+	begin
+   	  create_dotty_file_mon auto mon !h ; 
+	  close_out !h ; 
+	  let _ = Sys.command "dot -Tps output.gv -o output.ps" in () ;
+          print_string "**********************************\n" ;
+          print_string "The files \"output.gv\" and \"output.ps\" have been created.\n" ;
+          print_string "**********************************\n" ;
+	end ;
+    end ;
+
+(* Function running the Markov Monoid Algorithm on a probabilistic automaton *)
+  if (!func = "-mma") then	   
+    begin
+      if (nb_param = 3) then data := open_in Sys.argv.(2) ;
+      if (nb_param = 4) then (data := open_in Sys.argv.(2) ; display := Sys.argv.(3)) ;
+      let auto_prob = read_automaton !data in
+      if (!display = "-text") then
+	begin
+	  print_string "**********************************\n" ;
+	  print_string "Markov Monoid Algorithm:\n" ;
+	  print_string "**********************************\n" ;
+	  print_automaton auto_prob ;
+	end ;
+      if (!display = "-dotty") then create_dotty_file_aut auto_prob !h ;
+      let mon = automata2monoid auto_prob in
+      if (!display = "-dotty") then create_dotty_file_mon auto_prob mon !h ;
+      if (!display = "-text") then print_monoid mon ;
+      if (mon.info = "l0") then print_string "\n-----> This automaton is leaktight and does not have value 1.\n" ;
+      if (mon.info = "l1") then print_string "\n-----> This automaton is leaktight and has value 1.\n" ;
+      if (mon.info = "n0") then print_string "\n-----> This automaton is not leaktight and (most probably) does not have value 1.\n" ;
+      if (mon.info = "n1") then print_string "\n-----> This automaton is not leaktight but has value 1.\n" ;
+      if (!display = "-dotty") then 
+	begin
+	  close_out !h ; 
+          let _ = Sys.command "dot -Tps output.gv -o output.ps" in () ;
+          print_string "**********************************\n" ;
+          print_string "The files \"output.gv\" and \"output.ps\" have been created.\n" ;
+          print_string "**********************************\n" ;
+	end ;
+    end ;
+
+(* Function checking the equivalence of two B-automata *)
+  if (!func = "-equ") then
+    begin
+      if (nb_param = 3) then data := open_in Sys.argv.(2) ;
+      if (nb_param = 4) then (data := open_in Sys.argv.(2) ; display := Sys.argv.(3)) ;
+      let auto1 = read_automaton !data in
+      let mon1 = automata2monoid auto1 in
+      let auto2 = read_automaton !data in
+      let mon2 = automata2monoid auto2 in
+      if (!display = "-text") then
+	begin
+	  print_string "**********************************\n" ;
+	  print_string "Computing the stabilization monoid of both automata:\n" ;
+	  print_string "**********************************\n" ;
+	  print_string "\nFirst automaton:\n" ;
+	  print_automaton auto1 ;
+	  print_string "\nStabilization monoid of the first automaton:\n" ;
+	  print_monoid mon1 ;
+	  print_string "\nSecond automaton:\n" ;
+	  print_automaton auto2 ;
+	  print_string "\nStabilization monoid of the second automaton:\n" ;
+	  print_monoid mon2 ;
+	end ;
+      if (!display = "-dotty") then (create_dotty_file_aut auto1 !h ; create_dotty_file_aut auto2 !h) ;
+      let min_mon1 = minimize mon1 in
+      let min_mon2 = minimize mon2 in
+      if (!display = "-text") then
+	begin
+	  print_string "\n**********************************\n" ;
+	  print_string "Minimizing the stabilization monoids:\n" ;
+	  print_string "**********************************\n" ;
+	  print_string "\nMinimal stabilization monoid for the first automaton:\n" ;
+	  print_monoid min_mon1 ;
+	  print_string "\nMinimal stabilization monoid for the second automaton:\n" ;
+	  print_monoid min_mon2 ;
+	end ;
+      if (!display = "-dotty") then (create_dotty_file_mon auto1 min_mon1 !h ; create_dotty_file_mon auto2 min_mon2 !h) ;
+      if equivalence min_mon1 min_mon2
+      then print_string "\n\n-----> They are equivalent.\n\n" 
+      else print_string "\n\n-----> They are not equivalent.\n\n" ;
+      if (!display = "-dotty") then 
+	begin
+	  close_out !h ; 
+          let _ = Sys.command "dot -Tps output.gv -o output.ps" in () ;
+          print_string "**********************************\n" ;
+          print_string "The files \"output.gv\" and \"output.ps\" have been created.\n" ;
+          print_string "**********************************\n" ;
+	end ;
+    end ;
+
+(* Function checking the Finite Power Property for classical automata *)
   if (!func = "-fpp") then
     begin
       if (nb_param = 3) then data := open_in Sys.argv.(2) ;
@@ -44,7 +167,7 @@ let _ =
       if (!display = "-text") then
 	begin
 	  print_string "**********************************\n" ;
-	  print_string "Testing the finite power property:\n" ;
+	  print_string "Checking the finite power property:\n" ;
 	  print_string "**********************************\n" ;
 	  print_automaton auto ;
 	end ;
@@ -58,32 +181,28 @@ let _ =
       if mon.info = "l"
       then print_string "\n\n-----> This automaton has the finite power property.\n\n"
       else print_string "\n\n-----> This automaton does not have the finite power property.\n\n" ;
-      if (!display = "-dotty") then (close_out !h ; let _ = Sys.command "dot -Tps output.gv -o output.ps" in ()) ;
-    end ;
-  
-  if (!func = "-mma") then	   
-    begin
-      if (nb_param = 3) then data := open_in Sys.argv.(2) ;
-      if (nb_param = 4) then (data := open_in Sys.argv.(2) ; display := Sys.argv.(3)) ;
-      let auto_prob = read_automaton !data in
-      if (!display = "-text") then
+      if (!display = "-dotty") then 
 	begin
-	  print_string "**********************************\n" ;
-	  print_string "Testing the Markov Monoid Algorithm:\n" ;
-	  print_string "**********************************\n" ;
-	  print_automaton auto_prob ;
+	  close_out !h ; 
+          let _ = Sys.command "dot -Tps output.gv -o output.ps" in () ;
+          print_string "**********************************\n" ;
+          print_string "The files \"output.gv\" and \"output.ps\" have been created.\n" ;
+          print_string "**********************************\n" ;
 	end ;
-      if (!display = "-dotty") then create_dotty_file_aut auto_prob !h ;
-      let mon = automata2monoid auto_prob in
-      if (!display = "-dotty") then create_dotty_file_mon auto_prob mon !h ;
-      if (!display = "-text") then print_monoid mon ;
-      if (mon.info = "l0") then print_string "\n-----> This automaton is leaktight and does not have value 1.\n" ;
-      if (mon.info = "l1") then print_string "\n-----> This automaton is leaktight and has value 1.\n" ;
-      if (mon.info = "n0") then print_string "\n-----> This automaton is not leaktight and (most probably) does not have value 1.\n" ;
-      if (mon.info = "n1") then print_string "\n-----> This automaton is not leaktight but has value 1.\n" ;
-      if (!display = "-dotty") then (close_out !h ; let _ = Sys.command "dot -Tps output.gv -o output.ps" in ()) ;
     end ;
-  
+
+  if (!func = "-dotty") then
+    begin
+      if (nb_param > 2) then data := open_in Sys.argv.(2) ;
+      let auto = read_automaton !data in create_dotty_file_aut auto !h ;
+      let _ = Sys.command "dot -Tps output.gv -o output.ps" in () ;
+      print_string "**********************************\n" ;
+      print_string "The files \"output.gv\" and \"output.ps\" have been created.\n" ;
+      print_string "**********************************\n" ;
+      close_out !h ;
+      let _ = Sys.command "dot -Tps output.gv -o output.ps" in () ;
+    end ;
+
   if (!func = "-mma_stat") then	   
     begin 
       if (nb_param = 3) then failwith "Two parameters expected: n and p.\n" ;
@@ -166,87 +285,4 @@ let _ =
       print_string "Number of automata that are not leaktight and may have value 1: " ; print_int !nb_n0 ; print_newline() ;
       print_string "Number of automata that are not leaktight and have value 1: " ; print_int !nb_n1 ; print_newline() ;
     end ;
-
-  if (!func = "-sm") then
-    begin
-      if (nb_param = 3) then data := open_in Sys.argv.(2) ;
-      if (nb_param = 4) then (data := open_in Sys.argv.(2) ; display := Sys.argv.(3)) ;
-      let auto = read_automaton !data in
-      if (!display = "-text") then
-	begin
-	  print_string "**********************************\n" ;
-	  print_string "Computing the stabilization monoid:\n" ;
-	  print_string "**********************************\n" ;
-	  print_automaton auto ;
-	end ;
-      if (!display = "-dotty") then create_dotty_file_aut auto !h ;
-      let mon = automata2monoid auto in
-      if mon.info = "l" 
-      then print_string "\n\n-----> This automaton is limited.\n\n" 
-      else print_string "\n\n-----> This automaton is not limited.\n\n" ;
       
-      let min_mon = minimize mon in
-      if (!display = "-text") then
-	begin
-	  print_string "\n**********************************\n" ;
-	  print_string "Minimizing the stabilization monoid:\n" ;
-	  print_string "**********************************\n" ;
-	end ;
-      print_monoid min_mon ;
-      if (!display = "-dotty") then (create_dotty_file_mon auto min_mon !h ; close_out !h ; let _ = Sys.command "dot -Tps output.gv -o output.ps" in ()) ;
-    end ;
-  
-  if (!func = "-equ") then
-    begin
-      if (nb_param = 3) then data := open_in Sys.argv.(2) ;
-      if (nb_param = 4) then (data := open_in Sys.argv.(2) ; display := Sys.argv.(3)) ;
-      let auto1 = read_automaton !data in
-      let mon1 = automata2monoid auto1 in
-      let auto2 = read_automaton !data in
-      let mon2 = automata2monoid auto2 in
-      if (!display = "-text") then
-	begin
-	  print_string "**********************************\n" ;
-	  print_string "Computing the stabilization monoid of both automata:\n" ;
-	  print_string "**********************************\n" ;
-	  print_string "\nFirst automaton:\n" ;
-	  print_automaton auto1 ;
-	  print_string "\nStabilization monoid of the first automaton:\n" ;
-	  print_monoid mon1 ;
-	  print_string "\nSecond automaton:\n" ;
-	  print_automaton auto2 ;
-	  print_string "\nStabilization monoid of the second automaton:\n" ;
-	  print_monoid mon2 ;
-	end ;
-      if (!display = "-dotty") then (create_dotty_file_aut auto1 !h ; create_dotty_file_aut auto2 !h) ;
-      let min_mon1 = minimize mon1 in
-      let min_mon2 = minimize mon2 in
-      if (!display = "-text") then
-	begin
-	  print_string "\n**********************************\n" ;
-	  print_string "Minimizing the stabilization monoids:\n" ;
-	  print_string "**********************************\n" ;
-	  print_string "\nMinimal stabilization monoid for the first automaton:\n" ;
-	  print_monoid min_mon1 ;
-	  print_string "\nMinimal stabilization monoid for the second automaton:\n" ;
-	  print_monoid min_mon2 ;
-	end ;
-      if (!display = "-dotty") then (create_dotty_file_mon auto1 min_mon1 !h ; create_dotty_file_mon auto2 min_mon2 !h) ;
-      if equivalence min_mon1 min_mon2
-      then print_string "\n\n-----> They are equivalent.\n\n" 
-      else print_string "\n\n-----> They are not equivalent.\n\n" ;
-      if (!display = "-dotty") then (close_out !h ; let _ = Sys.command "dot -Tps output.gv -o output.ps" in ()) ;
-    end ;
-  
-  if (!func = "-dotty") then
-    begin
-      if (nb_param > 2) then data := open_in Sys.argv.(2) ;
-      let auto = read_automaton !data in create_dotty_file_aut auto !h ;
-      let _ = Sys.command "dot -Tps output.gv -o output.ps" in () ;
-      print_string "**********************************\n" ;
-      print_string "The file \"output.gv\" and \"output.ps\" have been created.\n" ;
-      print_string "**********************************\n" ;
-      close_out !h ;
-      let _ = Sys.command "dot -Tps output.gv -o output.ps" in () ;
-    end ;
-  

@@ -1,5 +1,7 @@
 % A classical automaton to test the finite power property
 % The answer should be TRUE
+% Indeed, the automaton recognizes the language L = (a+b)^* b (a+b)^* (words containing at least one b)
+% L^* is the set of all words, it is equal to L^0 + L^1
 2
 c
 ab

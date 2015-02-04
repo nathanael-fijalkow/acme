@@ -1,0 +1,36 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdftex 2012.12.12)  26 APR 2014 14:04
+entering extended mode
+**C:/Users/dell/Desktop/ATVA/bib.bib
+(C:/Users/dell/Desktop/ATVA/bib.bib
+Overfull \hbox (72.55165pt too wide) in paragraph at lines 42--52
+\tenrm So-ci-ety, year = 2013, isbn = 978-1-4799-0413-6, ee = http://ieeexplore
+.ieee.org/xpl/mostRecentIssue.jsp?punumber=6570844,|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\tenrm S
+.\discretionary replacing 2
+..\tenrm o
+..\tenrm -
+.\tenrm o
+.\kern0.27779
+.\tenrm c
+.etc.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+<to be read again> 
+                   _
+l.61 ...tp://dx.doi.org/10.1007/978-3-642-14162-1_
+                                                  47},
+? 
+! Emergency stop.
+<inserted text> 
+                $
+<to be read again> 
+                   _
+l.61 ...tp://dx.doi.org/10.1007/978-3-642-14162-1_
+                                                  47},
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!

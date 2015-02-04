@@ -59,7 +59,9 @@ let create_dotty_file_mon (automaton:automaton) (monoid:monoid) h =
 for k = 0 to m-1 do
   
   output_string h "digraph G {\nrankdir = LR ; overlap = false ; \n" ;
-  output_string h ("labelloc = \"t\" ;\n label = \"" ^ monoid.name.(k) ^ " " ^ monoid.attribute.(k) ^"\" ; \n") ; 
+  output_string h ("labelloc = \"t\" ;\nlabel = \"" ^ monoid.name.(k) ^ " " ^ monoid.attribute.(k) ^"\" ; \n") ; 
+
+(*  print_newline() ; print_string (print_matrix monoid.structure n monoid.matrix.(k)) ; print_string monoid.attribute.(k) ; print_string "\n\n" ; *)
 
   let b = ref false in
   for i = 0 to n - 1 do if automaton.final.(i) && automaton.initial.(i) then b := true ; done ;
@@ -88,7 +90,7 @@ for k = 0 to m-1 do
       output_string h "\n" ;
     end ;
   
-  output_string h "node [shape = circle, color = lightblue, style = filled];\n" ;
+  output_string h "node [shape = circle, color = lightblue, style = filled] ;\n" ;
   for i = 0 to n - 1 do
     for j = 0 to n - 1 do
       match structure.type_s with

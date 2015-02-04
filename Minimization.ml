@@ -36,7 +36,7 @@ let minimize monoid =
   
   let update i =
     type_vect.(i).(0) <- classe tab_partition i ;
-    type_vect.(i).(1) <- if monoid.stabilization.(i) = -1 then -1 else classe tab_partition monoid.stabilization.(i) ;
+    type_vect.(i).(1) <- classe tab_partition monoid.stabilization.(i) ;
     for j = 0 to n-1 do
       type_vect.(i).(j+2) <- classe tab_partition monoid.product.(i).(j) ;
       type_vect.(i).(j+2+n) <- classe tab_partition monoid.product.(j).(i) ;
@@ -44,7 +44,7 @@ let minimize monoid =
   in
   
   let vect_equal t1 t2 =
-    let rec foo i = i = m || (t1.(i) = t2.(i) && foo (i+1)) in foo 0
+    let rec foo i = (i = m) || (t1.(i) = t2.(i) && foo (i+1)) in foo 0
   in
   
   let nv_tab_partition = Array.make n 0 and b = ref true and new_nb_classes = ref 0 in
@@ -63,19 +63,26 @@ let minimize monoid =
     nb_classes := !new_nb_classes ;
   done ;
   
-  let tab_map = Array.make n (-1) and tab_inverse = Array.make !nb_classes (-1) in
+  let tab_map = Array.make n (-1) and tab_inverse = Array.make !nb_classes (-1) and vect_name = Array.make !nb_classes "" and vect_attribute = Array.make !nb_classes "" in
   let i = ref 0 and b = ref false in
   for j = 0 to n-1 do
     b := false ;
     for k = 0 to n-1 do
-      if classe tab_partition k = j then (b := true ; tab_map.(k) <- !i ; tab_inverse.(!i) <- j) ;
+      if classe tab_partition k = j then 
+	begin
+	b := true ; 
+	tab_map.(k) <- !i ; 
+	tab_inverse.(!i) <- j ; 
+	vect_attribute.(!i) <- monoid.attribute.(k) ; 
+	vect_name.(!i) <- if (vect_name.(!i) = "" || String.length vect_name.(!i) > String.length monoid.name.(k)) then monoid.name.(k) else vect_name.(!i) ; 
+	end ;
     done ;
     if !b then i := !i + 1 ;
   done ;
   
   let vect_morphism = Array.init (Array.length monoid.alpha) (fun i -> tab_map.(monoid.morphism.(i))) in
   let mat_prod = Array.init !nb_classes (fun i -> Array.init !nb_classes (fun j -> tab_map.(classe tab_partition (monoid.product.(tab_inverse.(i)).(tab_inverse.(j)))))) in
-  let vect_stab = Array.init !nb_classes (fun i -> if monoid.stabilization.(tab_inverse.(i)) = -1 then -1 else tab_map.(classe tab_partition (monoid.stabilization.(tab_inverse.(i))))) in
+  let vect_stab = Array.init !nb_classes (fun i -> tab_map.(classe tab_partition (monoid.stabilization.(tab_inverse.(i))))) in
   let vect_ideal = Array.init !nb_classes (fun i -> monoid.ideal.(tab_inverse.(i))) in
   let vect_matrix = Array.init !nb_classes (fun i -> monoid.matrix.(tab_inverse.(i))) in
   {
@@ -87,8 +94,8 @@ let minimize monoid =
     ideal          = vect_ideal ;
     structure      = monoid.structure ;
     matrix         = vect_matrix ;
-    name           = monoid.name ; (* INCORRECT *)
-    attribute      = monoid.attribute ; (* INCORRECT *)
+    name           = vect_name ;
+    attribute      = vect_attribute ;
     info           = monoid.info ;
   }
 

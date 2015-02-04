@@ -95,7 +95,7 @@ let boolean_structure = {
 (* One counter structure *)
   
 let mat_p = 
-[| [|0;0;2;3;4|] ;
+[| [|0;0;0;3;4|] ;
    [|0;1;2;3;4|] ;
    [|0;2;2;3;4|] ;
    [|3;3;3;3;4|] ;

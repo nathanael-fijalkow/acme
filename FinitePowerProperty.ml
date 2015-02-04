@@ -11,7 +11,7 @@ let print_automaton_eps automaton_eps =
 print_automaton automaton_eps.aut ;
 print_string "\nThe epsilon-transitions are:\n" ;
 print_string (print_matrix automaton_eps.aut.structure automaton_eps.aut.size (automaton_eps.epsilon)) ;
-print_newline()
+print_newline ()
 
 (***************************************
 EPSILON-REMOVAL
@@ -29,11 +29,11 @@ let remove_epsilon automaton_eps =
     let m_next = prod_here !m_eps !m_eps in
     (b := not (equal_here !m_eps m_next) ; m_eps := m_next)
   done ;
-  let new_transition_matrix = Array.init (Array.length automaton_eps.aut.alphabet - 1) (fun i -> prod_here !m_eps (prod_here automaton_eps.aut.transition.(i) !m_eps))
+  let new_transition_matrix = Array.init (Array.length automaton_eps.aut.alphabet) (fun i -> prod_here !m_eps (prod_here automaton_eps.aut.transition.(i) !m_eps))
   in
   
   {
-    size                 = automaton_eps.aut.size ;
+    size                 = n ;
     alphabet             = automaton_eps.aut.alphabet ;
     initial              = automaton_eps.aut.initial ;
     final                = automaton_eps.aut.final ;

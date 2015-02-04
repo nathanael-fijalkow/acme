@@ -1,5 +1,6 @@
 % A probabilistic automaton to test the Markov Monoid Algorithm
-% The answer should be FALSE
+% This probabilistic automaton has value 1 or not, depending on the exact transition probabilities
+% The Markov Monoid Algorithm cannot detect this: it will find some leaks but not value 1 witness
 5
 p
 ab

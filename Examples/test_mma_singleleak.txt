@@ -1,3 +1,4 @@
+% This probabilistic automaton has value 1
 9
 p
 ab
