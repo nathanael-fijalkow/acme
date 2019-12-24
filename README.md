@@ -9,7 +9,7 @@ and [Denis Kuperberg](https://perso.ens-lyon.fr/denis.kuperberg/).
 
 ACME uses <a href=http://www.graphviz.org/>graphviz</a> to visualize the automata and monoids produced.
 
-* [ATVA'2014 tool paper](https://github.com/nathanael-fijalkow/acme/ATVA_2014_ACME.pdf)
+* [ATVA'2014 tool paper](https://github.com/nathanael-fijalkow/acme/blob/master/ATVA_2014_ACME.pdf)
 * [Manual (PDF)](https://github.com/nathanael-fijalkow/acme/tree/master/Manual/main.pdf).
 
 ### Installation and Use
