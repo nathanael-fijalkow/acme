@@ -44,16 +44,14 @@ The blank lines and lines starting with "%" are ignored.
  > in text verbose mode:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight"><code>acme -sm Examples/test\_sm.txt -text</code></pre>
+		<pre class="highlight"><code>acme -sm Examples/test_sm.txt -text</code></pre>
 	</div>
 </div>
 
  > to visualize it using Graphviz:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>acme -sm Examples/test_sm.txt -dotty</code>
-		</pre>
+		<pre class="highlight"><code>acme -sm Examples/test_sm.txt -dotty</code></pre>
 	</div>
 </div>
 
@@ -64,18 +62,14 @@ The blank lines and lines starting with "%" are ignored.
  > in text verbose mode:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>acme -equ Examples/test_equ.txt -text</code>
-		</pre>
+		<pre class="highlight"><code>acme -equ Examples/test_equ.txt -text</code></pre>
 	</div>
 </div>
 
  > to visualize them using Graphviz:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>acme -equ Examples/test_equ.txt -dotty</code>
-		</pre>
+		<pre class="highlight"><code>acme -equ Examples/test_equ.txt -dotty</code></pre>
 	</div>
 </div>
 
@@ -86,18 +80,14 @@ The blank lines and lines starting with "%" are ignored.
  > in text verbose mode:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>acme -mma Examples/test_mma.txt -text</code>
-		</pre>
+		<pre class="highlight"><code>acme -mma Examples/test_mma.txt -text</code></pre>
 	</div>
 </div>
 
  > to visualize it using Graphviz:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>acme -mma Examples/test_mma.txt -dotty</code>
-		</pre>
+		<pre class="highlight"><code>acme -mma Examples/test_mma.txt -dotty</code></pre>
 	</div>
 </div>
 
@@ -109,18 +99,14 @@ The blank lines and lines starting with "%" are ignored.
  > in text verbose mode:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>acme -fpp Examples/test_fpp_true.txt -text</code>
-		</pre>
+		<pre class="highlight"><code>acme -fpp Examples/test_fpp_true.txt -text</code></pre>
 	</div>
 </div>
 
  > To visualize it using Graphviz:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>acme -fpp Examples/test_fpp_true.txt -dotty</code>
-		</pre>
+		<pre class="highlight"><code>acme -fpp Examples/test_fpp_true.txt -dotty</code></pre>
 	</div>
 </div>
 
@@ -130,8 +116,6 @@ The blank lines and lines starting with "%" are ignored.
 
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>acme -dotty Examples/test_sm.txt -text</code>
-		</pre>
+		<pre class="highlight"><code>acme -dotty Examples/test_sm.txt -text</code></pre>
 	</div>
 </div>
