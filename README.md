@@ -44,11 +44,7 @@ The blank lines and lines starting with "%" are ignored.
  > in text verbose mode:
 <div class="highlighter-rouge">
 	<div class="highlight">
-		<pre class="highlight">
-			<code>
-acme -sm Examples/test\_sm.txt -text
-			</code>
-		</pre>
+		<pre class="highlight"><code>acme -sm Examples/test\_sm.txt -text</code></pre>
 	</div>
 </div>
 
@@ -56,9 +52,7 @@ acme -sm Examples/test\_sm.txt -text
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>
-acme -sm Examples/test\_sm.txt -dotty
-			</code>
+			<code>acme -sm Examples/test_sm.txt -dotty</code>
 		</pre>
 	</div>
 </div>
@@ -71,9 +65,7 @@ acme -sm Examples/test\_sm.txt -dotty
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>
-acme -equ Examples/test\_equ.txt -text
-			</code>
+			<code>acme -equ Examples/test_equ.txt -text</code>
 		</pre>
 	</div>
 </div>
@@ -82,9 +74,7 @@ acme -equ Examples/test\_equ.txt -text
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>
-acme -equ Examples/test\_equ.txt -dotty
-			</code>
+			<code>acme -equ Examples/test_equ.txt -dotty</code>
 		</pre>
 	</div>
 </div>
@@ -97,7 +87,7 @@ acme -equ Examples/test\_equ.txt -dotty
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>acme -mma Examples/test\_mma.txt -text</code>
+			<code>acme -mma Examples/test_mma.txt -text</code>
 		</pre>
 	</div>
 </div>
@@ -106,7 +96,7 @@ acme -equ Examples/test\_equ.txt -dotty
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>acme -mma Examples/test\_mma.txt -dotty</code>
+			<code>acme -mma Examples/test_mma.txt -dotty</code>
 		</pre>
 	</div>
 </div>
@@ -120,7 +110,7 @@ acme -equ Examples/test\_equ.txt -dotty
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>acme -fpp Examples/test\_fpp\_true.txt -text</code>
+			<code>acme -fpp Examples/test_fpp_true.txt -text</code>
 		</pre>
 	</div>
 </div>
@@ -129,7 +119,7 @@ acme -equ Examples/test\_equ.txt -dotty
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>acme -fpp Examples/test\_fpp\_true.txt -dotty</code>
+			<code>acme -fpp Examples/test_fpp_true.txt -dotty</code>
 		</pre>
 	</div>
 </div>
@@ -141,7 +131,7 @@ acme -equ Examples/test\_equ.txt -dotty
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>acme -dotty Examples/test\_sm.txt -text</code>
+			<code>acme -dotty Examples/test_sm.txt -text</code>
 		</pre>
 	</div>
 </div>
