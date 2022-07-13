@@ -38,7 +38,8 @@ The blank lines and lines starting with "%" are ignored.
 ### Available Functions
 
 * Computing the Stabilization Monoid of a $B$-Automaton
-**-sm**: Computes the stabilization monoid of a B-automaton and minimizes it.
+
+**-sm**: Computes the stabilization monoid of a B-automaton and minimizes it
 
  > in text verbose mode:
 <div class="highlighter-rouge">
@@ -63,6 +64,7 @@ acme -sm Examples/test\_sm.txt -dotty
 </div>
 
 * Checking the Equivalence of two $B$-Automata
+
 **-equ**: Checks whether two B-automata are equivalent
 
  > in text verbose mode:
@@ -88,15 +90,14 @@ acme -equ Examples/test\_equ.txt -dotty
 </div>
 
 * Running the Markov Monoid Algorithm on a Probabilistic Automaton
+
 **-mma**: Runs the Markov Monoid algorithm on a probabilistic automaton
 
  > in text verbose mode:
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>
-acme -mma Examples/test\_mma.txt -text
-			</code>
+			<code>acme -mma Examples/test\_mma.txt -text</code>
 		</pre>
 	</div>
 </div>
@@ -105,24 +106,21 @@ acme -mma Examples/test\_mma.txt -text
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>
-acme -mma Examples/test\_mma.txt -dotty
-			</code>
+			<code>acme -mma Examples/test\_mma.txt -dotty</code>
 		</pre>
 	</div>
 </div>
 
 
 * Checking whether a Classical Automaton has the Finite Power Property
+
 **-fpp**: Checks whether a classical automaton has the finite power property, i.e. whether there exists n such that L^* = L^0 + L^1 + ... + L^n
 
  > in text verbose mode:
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>
-acme -fpp Examples/test\_fpp\_true.txt -text
-			</code>
+			<code>acme -fpp Examples/test\_fpp\_true.txt -text</code>
 		</pre>
 	</div>
 </div>
@@ -131,22 +129,19 @@ acme -fpp Examples/test\_fpp\_true.txt -text
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>
-acme -fpp Examples/test\_fpp\_true.txt -dotty
-			</code>
+			<code>acme -fpp Examples/test\_fpp\_true.txt -dotty</code>
 		</pre>
 	</div>
 </div>
 
 * Drawing an automaton using Graphviz
+
 **-dotty**: Produces a file output.gv (DOT format) and output.ps, which can be visualized using <a href=http://www.graphviz.org/>graphviz</a>
 
 <div class="highlighter-rouge">
 	<div class="highlight">
 		<pre class="highlight">
-			<code>
-acme -dotty Examples/test\_sm.txt -text
-			</code>
+			<code>acme -dotty Examples/test\_sm.txt -text</code>
 		</pre>
 	</div>
 </div>
